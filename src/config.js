@@ -8,6 +8,7 @@ module.exports = {
     "database": process.env.DB_NAME || "amasijo",
     "host": process.env.DB_HOST || "127.0.0.1",
     "dialect": process.env.DB_DIALECT || "mysql",
+    "port": process.env.DB_PORT ||"3306", 
     "timezone": "-03:00", // Ajusta la zona horaria, Argentina UTC-3
   },
   "test": {
@@ -16,6 +17,7 @@ module.exports = {
     "database": process.env.DB_NAME || "amasijo",
     "host": process.env.DB_HOST || "127.0.0.1",
     "dialect": process.env.DB_DIALECT || "mysql",
+    "port": process.env.DB_PORT ||"3306", 
     "timezone": "-03:00", // Ajusta la zona horaria, Argentina UTC-3
   },
   "production": {
@@ -24,6 +26,7 @@ module.exports = {
     "database": process.env.DB_NAME,
     "host": process.env.DB_HOST,
     "dialect": process.env.DB_DIALECT,
+    "port": process.env.DB_PORT ||"3306", 
     "timezone": "-03:00", // Ajusta la zona horaria, Argentina UTC-3
   }
 }
