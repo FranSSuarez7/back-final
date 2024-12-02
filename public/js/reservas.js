@@ -1,4 +1,5 @@
 
+const ServerApi = import.meta.env.SERVER;
 
 const search = document.querySelector('.input-group input'),
     table_rows = document.querySelectorAll('tbody tr'),
@@ -151,7 +152,7 @@ function confirmDelete(id) {
       confirmButtonText: "Sí, eliminar!"
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`/admin/reservas/${id}`, {
+        fetch(`${ServerApi}/admin/reservas/${id}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         })
@@ -172,7 +173,7 @@ function confirmDelete(id) {
 
 // Función para cambiar estado y enviar mensaje
 function toggleEstado(reservaId, estadoActual) {
-    fetch(`/admin/reservas/${reservaId}/toggle`, {
+    fetch(`${ServerApi}/admin/reservas/${reservaId}/toggle`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ estadoActual }),

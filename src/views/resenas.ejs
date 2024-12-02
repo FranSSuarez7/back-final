@@ -21,7 +21,7 @@
                     </span></p>
                     <p><strong>Mostrar:</strong> <button class="status delivered <%= review.mostrar ? 'si' : 'no' %>" data-id="<%= review.idresena %>"><%= review.mostrar ? 'Sí' : 'No' %></button></p>
                     <p><strong>Descripción:</strong> <%= review.comentario %></p>
-                    <form action="/admin/resenas/delete/<%= review.idresena %>" method="POST" class="delete-form">
+                    <form action="https://back-final-kw64.onrender.com/admin/resenas/delete/<%= review.idresena %>" method="POST" class="delete-form">
                         <button type="submit" class="delete-btn">Eliminar</button>
                     </form>
                 </div>

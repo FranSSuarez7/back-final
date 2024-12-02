@@ -1,3 +1,5 @@
+const ServerApi = import.meta.env.SERVER;
+
 document.addEventListener('DOMContentLoaded', function() {
     const datePicker = document.getElementById('datePicker');
     const blockButton = document.getElementById('blockButton');
@@ -24,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Function to save blocked date to the database
     function saveBlockedDatesToDatabase(date) {
-        fetch('/admin/bloquear-fecha', {
+        fetch(`${ServerApi}/admin/bloquear-fecha`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

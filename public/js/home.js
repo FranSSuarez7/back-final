@@ -1,8 +1,8 @@
 /* Esto no funciona todavia */
-
+const ServerApi = import.meta.env.SERVER;
 document.addEventListener('DOMContentLoaded', async function() {
   try {
-      const response = await fetch('http://localhost:3000/home/resenasTotales'); // Ruta a tu API
+      const response = await fetch(`${ServerApi}/home/resenasTotales`); // Ruta a tu API
       if (!response.ok) {
           throw new Error('Network response was not ok ' + response.statusText);
       }

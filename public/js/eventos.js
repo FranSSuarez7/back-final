@@ -1,3 +1,5 @@
+const ServerApi = import.meta.env.SERVER;
+
 document.addEventListener('DOMContentLoaded', () => {
     const deleteButtons = document.querySelectorAll('.delete-btn');
     const editButtons = document.querySelectorAll('.edit-btn');
@@ -30,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const card = this.closest('.card');
                 const id = card.getAttribute('data-id');
                 try {
-                    const response = await fetch(`/admin/eventos/delete/${id}`, {
+                    const response = await fetch(`${ServerApi}/admin/eventos/delete/${id}`, {
                         method: 'DELETE',
                         headers: {
                             'Content-Type': 'application/json',
@@ -95,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const card = this.closest('.card');
                 const id = card.getAttribute('data-id');
                 try {
-                    const response = await fetch(`/admin/eventos/delete/${id}`, {
+                    const response = await fetch(`${ServerApi}/admin/eventos/delete/${id}`, {
                         method: 'DELETE',
                         headers: {
                             'Content-Type': 'application/json',

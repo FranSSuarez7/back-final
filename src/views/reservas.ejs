@@ -17,7 +17,7 @@
     <main class="table" id="customers_table">
         <section class="table__header">
             <h1>Reservas</h1>
-            <form action="/admin/reservas/filter" method="get" class="formulario-fecha">
+            <form action="https://back-final-kw64.onrender.com/admin/reservas/filter" method="get" class="formulario-fecha">
                 <label for="startDate">Fecha de inicio:</label>
                 <input type="date" id="startDate" name="startDate" class="date-input">
                 
@@ -89,12 +89,12 @@
                             <!-- Contenedor para los iconos de editar y eliminar -->
                             <div class="icon-container">
                                 <!-- Botón de editar -->
-                                <a class="btn-edit" href="/admin/reservas/editar/<%= reserva.idreserva %>">
+                                <a class="btn-edit" href="https://back-final-kw64.onrender.com/admin/reservas/editar/<%= reserva.idreserva %>">
                                     <i class="fa-solid fa-pen icon-edit"></i>
                                 </a>
                         
                                 <!-- Formulario de eliminar -->
-                                <form id="delete-form-<%= reserva.idreserva %>" action="/admin/reservas/<%= reserva.idreserva %>?_method=DELETE" method="POST">
+                                <form id="delete-form-<%= reserva.idreserva %>" action="https://back-final-kw64.onrender.com/admin/reservas/<%= reserva.idreserva %>?_method=DELETE" method="POST">
                                     <input type="hidden" name="_method" value="DELETE">
                                     <button class="btn-delete" type="button" onclick="confirmDelete('<%= reserva.idreserva %>')">
                                         <i class="fa-solid fa-trash icon-delete" ></i>

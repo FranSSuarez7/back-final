@@ -1,3 +1,6 @@
+
+const ServerApi = import.meta.env.SERVER;
+
 document.addEventListener('DOMContentLoaded', () => {
 
     // Función para manejar el cambio de estado "Mostrar"
@@ -8,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const idResena = button.getAttribute('data-id');
 
                 try {
-                    const response = await fetch(`/admin/resenas/${idResena}/toggle`, {
+                    const response = await fetch(`${ServerApi}/admin/resenas/${idResena}/toggle`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -50,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const card = this.closest('.card');
                 const id = card.getAttribute('data-id');
                 try {
-                    const response = await fetch(`/admin/resenas/delete/${id}`, {
+                    const response = await fetch(`${ServerApi}/admin/resenas/delete/${id}`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
