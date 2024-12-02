@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservas</title>
+</head>
+<body>
+    <h1>Listado de Reservas</h1>
+    <ul>
+        <% for(let i = 0; i < reservas.length; i++) { %>
+            <li>
+                <strong>ID de Reserva:</strong> <%= reservas[i].idreserva %><br>
+                <strong>ID de Cliente:</strong> <%= reservas[i].cliente_idcliente %><br>
+                <strong>Cantidad de Personas:</strong> <%= reservas[i].cantidadPersonas %><br>
+                <strong>Fecha y Hora de Reserva:</strong> <%= reservas[i].fechaHoraReserva %><br>
+            </li>
+        <% } %>
+    </ul>
+</body>
+</html>

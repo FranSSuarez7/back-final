@@ -1,0 +1,43 @@
+<%- include('partials/navBar.ejs') %>
+
+    <title>Editar Reserva</title>
+    <link rel="stylesheet" href="/css/edit.css">
+</head>
+<div class="container-edit">
+    <h1 class="titulo-reserva">Editar Reserva</h1>
+    <form action="/admin/reservas/editar/<%= reserva.idreserva %>" method="post">
+        <h2>Datos del Cliente</h2>
+        <div>
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" value="<%= reserva.Cliente.nombre   %>" required>
+        </div>
+        <div>
+            <label for="telefono">Teléfono:</label>
+            <input type="text" id="telefono" name="telefono" value="<%= reserva.Cliente.telefono %>" required>
+        </div>
+        <div>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" value="<%= reserva.Cliente.email %>" required>
+        </div>
+
+        <h2>Datos de la Reserva</h2>
+        <div>
+            <label for="cantidadPersonas">Cantidad de Personas:</label>
+            <input type="number" id="cantidadPersonas" name="cantidadPersonas" value="<%= reserva.cantidadPersonas %>" required>
+        </div>
+        <div>
+            <label for="fechaHoraReserva">Fecha y Hora de la Reserva:</label>
+            <input type="datetime-local" id="fechaHoraReserva" name="fechaHoraReserva" value="<%= new Date(reserva.fechaHoraReserva).toISOString().slice(0, 16) %>" required>
+        </div>
+        <div>
+            <label for="estado">Estado:</label>
+            <select id="estado" name="estado" required>
+                <option value="pendiente" <% if (reserva.estado === 'pendiente') { %> selected <% } %>>Pendiente</option>
+                <option value="confirmado" <% if (reserva.estado === 'confirmado') { %> selected <% } %>>Confirmado</option>
+            </select>
+        </div>
+        <div>
+            <button type="submit">Actualizar Reserva y Cliente</button>
+        </div>
+    </form>
+</div>

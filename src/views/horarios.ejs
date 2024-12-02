@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bloqueador de Fechas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/horarios.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+    <%- include('partials/navBar.ejs') %>
+
+    <div class="container d-flex flex-column align-items-center mt-5">
+        <h1 class="text-center mb-4">Bloqueador de Fechas</h1>
+        <div class="card">
+            <div class="card-body">
+                <div class="mb-3">
+                    <label for="datePicker" class="form-label">Selecciona una fecha para bloquear:</label>
+                    <input type="date" id="datePicker" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label for="reason" class="form-label">Razón para bloquear:</label>
+                    <input type="text" id="reason" class="form-control" placeholder="Ingresa la razón para bloquear la fecha">
+                </div>
+                <button id="blockButton" class="btn btn-primary w-100">Bloquear Fecha</button>
+            </div>
+        </div>
+        <div class="mt-4">
+          <h2 class="text-center">Fechas Bloqueadas</h2>
+          <div id="blockedDates">
+            <ul class="list-group">
+                <% if (fechasBloqueadas.length > 0) { %>
+                    <% fechasBloqueadas.forEach(fecha => { %>
+                        <li class="list-group-item">
+                            <strong><%= fecha.fecha %></strong>
+                            <button class="btn btn-danger btn-sm delete-btn" data-fecha-id="<%= fecha.id %>">Eliminar</button>
+                        </li>
+                    <% }) %>
+                <% } else { %>
+                    <li class="list-group-item">No hay fechas bloqueadas.</li>
+                <% } %>
+            </ul>
+            
+              
+          
+          </div>
+      </div>
+      
+      
+      
+
+        <!-- Título de horarios semanales -->
+        <h2 class="text-center mb-4 mt-5">Horarios Semanales</h2>
+
+        <!-- Ventana de horarios semanales -->
+<!-- Ventana de horarios semanales -->
+<div class="schedule-window mt-3">
+  <form id="scheduleForm" onsubmit="event.preventDefault();">
+      <div class="schedule-window mt-3">
+          <div class="table-responsive-container">
+              <table class="table table-bordered text-center">
+                  <thead>
+                      <tr>
+                          <th>Día</th> 
+                         <!-- <th>Estado</th> -->
+                          <th>Apertura Mañana</th>
+                          <th>Cierre Mañana</th>
+                          <th>Apertura Tarde</th>
+                          <th>Cierre Tarde</th>
+                          <th>Acción</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <% diasSemanas.forEach((dia, diaIndex) => { %>
+                          <tr data-dia-id="<%= dia.id %>">
+                              <td><%= dia.dia_semana %></td>
+                            <!--  <td>
+                                  <button type="button" class="btn <%= dia.habilitado ? 'btn-success' : 'btn-danger' %> toggle-status"
+                                          data-dia-id="<%= dia.id %>" data-habilitado="<%= dia.habilitado %>">
+                                      <%= dia.habilitadoDia ? 'Habilitado' : 'Deshabilitado' %>
+                                  </button>
+                              </td>
+-->
+                              <!-- Horarios de mañana -->
+                              <td>
+                                  <input type="time" name="horarios[<%= dia.id %>][0][hora_inicio]"
+                                         value="<%= dia.horarios[0] ? dia.horarios[0].hora_inicio : '' %>"
+                                         class="form-control morning-start">
+                              </td>
+                              <td>
+                                  <input type="time" name="horarios[<%= dia.id %>][0][hora_fin]"
+                                         value="<%= dia.horarios[0] ? dia.horarios[0].hora_fin : '' %>"
+                                         class="form-control morning-end">
+                              </td>
+
+                              <!-- Horarios de tarde -->
+                              <td>
+                                  <input type="time" name="horarios[<%= dia.id %>][1][hora_inicio]"
+                                         value="<%= dia.horarios[1] ? dia.horarios[1].hora_inicio : '' %>"
+                                         class="form-control afternoon-start">
+                              </td>
+                              <td>
+                                  <input type="time" name="horarios[<%= dia.id %>][1][hora_fin]"
+                                         value="<%= dia.horarios[1] ? dia.horarios[1].hora_fin : '' %>"
+                                         class="form-control afternoon-end">
+                              </td>
+
+                              <!-- Botón de Guardar -->
+                              <td>
+                                  <button type="button" class="btn btn-primary guardar-btn">Guardar</button>
+                              </td>
+                          </tr>
+                      <% }); %>
+                  </tbody>
+              </table>
+          </div>
+      </div>
+  </form>
+</div>
+
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const saveButton = document.getElementById('saveButton');
+
+            // Cambiar estado habilitado/deshabilitado del día
+            document.querySelectorAll('.toggle-status').forEach(button => {
+                button.addEventListener('click', function() {
+                    const diaId = button.getAttribute('data-dia-id');
+                    const habilitado = button.getAttribute('data-habilitado') === 'true';
+
+                    fetch(`/admin/dias/${diaId}/toggle`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ habilitado: !habilitado })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            button.classList.toggle('btn-success', !habilitado);
+                            button.classList.toggle('btn-danger', habilitado);
+                            button.innerText = !habilitado ? 'Habilitado' : 'Deshabilitado';
+                            button.setAttribute('data-habilitado', !habilitado);
+                            Swal.fire({
+                                icon: 'success',
+                                title: `Día ${!habilitado ? 'habilitado' : 'deshabilitado'} exitosamente`
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: data.error || 'Error al cambiar el estado del día'
+                            });
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+                });
+            });
+
+            // Guardar los horarios ingresados
+            saveButton.addEventListener('click', function() {
+                const scheduleData = [];
+
+                document.querySelectorAll('#scheduleTable tr').forEach(row => {
+                    const diaId = row.querySelector('.toggle-status').getAttribute('data-dia-id');
+                    const horarios = {
+                        diaId: diaId,
+                        aperturaManana: row.querySelector('.morning-start').value,
+                        cierreManana: row.querySelector('.morning-end').value,
+                        aperturaTarde: row.querySelector('.afternoon-start').value,
+                        cierreTarde: row.querySelector('.afternoon-end').value,
+                    };
+                    scheduleData.push(horarios);
+                });
+
+                fetch('/admin/dias/actualizar-horarios', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ horarios: scheduleData })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Horarios actualizados exitosamente'
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: data.error || 'Error al actualizar los horarios'
+                        });
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            });
+        });
+    </script>
+
+
+<script>
+// Función para actualizar los horarios de un día específico
+async function actualizarHorario(diaId, horarios) {
+    try {
+        console.log('Enviando solicitud para actualizar el horario'); // Log cuando se inicia la solicitud
+        console.log('Día ID:', diaId); // Log para verificar el diaId
+        console.log('Horarios:', horarios); // Log para verificar los horarios enviados
+
+        const response = await fetch('/admin/actualizar-horario', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                diaId,
+                horarios
+            })
+        });
+
+        const result = await response.json();
+        console.log('Respuesta del servidor:', result); // Log para ver la respuesta del servidor
+
+        if (result.success) {
+            alert('Horario actualizado correctamente');
+        } else {
+            alert('Error al actualizar el horario');
+        }
+    } catch (error) {
+        console.error('Error:', error); // Log para cualquier error en la solicitud
+        alert('Error al enviar los datos al servidor');
+    }
+}
+
+// Función que se ejecuta al hacer clic en "Guardar"
+document.querySelectorAll('.guardar-btn').forEach(button => {
+    button.addEventListener('click', () => {
+        const row = button.closest('tr');  // Obtener la fila correspondiente
+        const diaId = row.dataset.diaId;  // Obtener el ID del día de la fila
+        console.log('Día ID de la fila:', diaId); // Log para verificar el diaId de la fila
+
+        // Obtener los horarios de la fila
+        const horaInicioMañana = row.querySelector('.morning-start').value;
+        const horaFinMañana = row.querySelector('.morning-end').value;
+        const horaInicioTarde = row.querySelector('.afternoon-start').value;
+        const horaFinTarde = row.querySelector('.afternoon-end').value;
+
+        // Crear un objeto con los horarios
+        const horarios = [
+            { hora_inicio: horaInicioMañana, hora_fin: horaFinMañana },  // Horarios de mañana
+            { hora_inicio: horaInicioTarde, hora_fin: horaFinTarde }     // Horarios de tarde
+        ];
+
+        console.log('Horarios obtenidos de la fila:', horarios); // Log para ver los horarios obtenidos
+
+        // Llamar a la función para actualizar el horario
+        actualizarHorario(diaId, horarios);
+    });
+});
+
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Agregar evento a cada botón "Eliminar"
+    document.querySelectorAll('.delete-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const fechaId = button.getAttribute('data-fecha-id');
+
+            // Confirmación con SweetAlert2 antes de eliminar
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "Esta acción no se puede deshacer",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, eliminar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Llamada a la API para eliminar
+                    fetch(`/admin/eliminar-fecha-bloqueada/${fechaId}`, {
+                        method: 'DELETE',
+                        headers: { 'Content-Type': 'application/json' }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        // Verificar la propiedad 'success' en la respuesta
+                        if (data.success) {
+                            // Eliminar el elemento de la lista en el DOM
+                            button.closest('li').remove();
+
+                            Swal.fire(
+                                'Eliminado!',
+                                'La fecha ha sido eliminada.',
+                                'success'
+                            );
+                        } else {
+                            Swal.fire(
+                                'Error',
+                                data.message || 'No se pudo eliminar la fecha',
+                                'error'
+                            );
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        Swal.fire(
+                            'Error',
+                            'Hubo un problema al eliminar la fecha.',
+                            'error'
+                        );
+                    });
+                }
+            });
+        });
+    });
+});
+
+
+
+</script>
+
+
+
+
+    <script src="/js/horarios.js"></script>
+</body>
+
+</html>

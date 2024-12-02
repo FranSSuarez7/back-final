@@ -1,0 +1,94 @@
+/* styles.css */
+
+body {
+    background-color: #f8f9fa;
+}
+
+.container {
+    max-width: 600px;
+}
+
+.card {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+}
+
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+    border-color: #218838;
+}
+
+h1, h2 {
+    color: #343a40;
+}
+
+.form-label {
+    font-weight: bold;
+}
+
+/* Contenedor de la ventana de horarios con desplazamiento horizontal */
+.schedule-wrapper {
+    overflow-x: auto; /* Habilitar el desplazamiento horizontal */
+    -webkit-overflow-scrolling: touch; /* Soporte para desplazamiento suave en iOS */
+    margin-bottom: 15px; /* Espacio inferior */
+    border: 1px solid #ddd; /* Borde para simular una "ventana" */
+    border-radius: 5px; /* Esquinas redondeadas */
+}
+
+/* Media query para dispositivos móviles */
+@media (max-width: 768px) {
+    .container {
+        width: 90%;
+        padding: 10px;
+    }
+
+    /* Ajustes para la ventana de horarios solo en móviles */
+    .schedule-window {
+        max-width: 100%;  /* Asegura que ocupe todo el ancho disponible */
+        overflow-x: auto;  /* Habilitar el desplazamiento horizontal */
+        padding: 10px;
+        margin-bottom: 20px;
+    }
+
+    /* Aseguramos que la tabla sea lo suficientemente ancha */
+    .table {
+        min-width: 600px; /* La tabla será lo suficientemente ancha para necesitar desplazamiento */
+    }
+
+    .blocked-date {
+        padding: 8px;
+        font-size: 0.9rem;
+    }
+
+    .btn {
+        font-size: 0.9rem;
+    }
+
+    h1, h2 {
+        font-size: 1.5rem;
+    }
+}

@@ -1,0 +1,68 @@
+
+
+
+.container-edit {
+    margin: 20px;
+    
+}
+.titulo-reserva{
+    text-align: center;
+    margin-bottom: 30px;
+}
+form {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}
+div {
+    margin-bottom: 15px;
+}
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+input {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+}
+button {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #218838;
+}
+/* Estilos responsive para dispositivos móviles */
+@media only screen and (max-width: 600px) {
+    .container-edit {
+        margin: 10px; /* Reducir margen en móviles */
+    }
+
+    .titulo-reserva {
+        margin-bottom: 20px; /* Reducir margen en móviles */
+        margin-left: 90px;
+        margin-top: 10px;
+    }
+
+    form {
+        padding: 15px; /* Reducir padding en móviles */
+        width: 74%;
+        margin-left: 91px;
+        margin-top: 66px;
+    }
+
+    div {
+        margin-bottom: 10px; /* Reducir margen en móviles */
+    }
+
+    button {
+        padding: 8px 16px; /* Reducir padding en móviles */
+    }
+}

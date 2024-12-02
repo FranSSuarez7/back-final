@@ -1,0 +1,249 @@
+/* General Styles */
+
+body {
+    min-height: 100vh;
+    background: gray center / cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+}
+
+main.cards {
+    width: 90vw; /* Ancho del contenedor principal */
+    max-width: 1200px; /* Ancho máximo en pantallas grandes */
+    background-color: #fff5;
+    backdrop-filter: blur(7px);
+    box-shadow: 0 .4rem .8rem #0005;
+    border-radius: .8rem;
+    overflow-x: auto; /* Permitir desplazamiento horizontal */
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra los elementos hijos horizontalmente */
+    margin: 0 auto; /* Centra el contenedor principal horizontalmente */
+}
+
+.cards__header,
+.cards__body,
+.add-event {
+    width: 100%; /* Ocupa todo el ancho disponible dentro de main.cards */
+    box-sizing: border-box; /* Incluye padding y border en el ancho total */
+    max-width: 100%; /* Ajusta para asegurar que no exceda el contenedor principal */
+}
+
+.cards__header {
+    padding: .8rem 1rem;
+    background-color: #fff4;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+#search {
+    padding: .5rem;
+    border-radius: .4rem;
+    border: 1px solid #ccc;
+    width: 100%;
+    max-width: 300px; /* Ancho máximo mayor en escritorio */
+}
+
+.cards__body {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 1rem 0;
+    justify-content: flex-start; /* Alinea las tarjetas al principio */
+    align-items: flex-start;
+    border: 1px solid #ccc; /* Agregar un borde alrededor del contenedor */
+    max-height: 400px; /* Ajustar la altura máxima si es necesario */
+    overflow-y: auto; /* Permitir desplazamiento vertical (scroll) */
+    overflow-x: auto; /* Permitir desplazamiento horizontal */
+    padding: 1rem; /* Ajuste de padding para evitar que el contenido toque el borde */
+    box-shadow: 0 .2rem .4rem #0003; /* Opcional: agregar sombra */
+    border-radius: .6rem; /* Bordes redondeados opcional */
+}
+
+.card {
+    background-color: white;
+    padding: 1rem;
+    border-radius: .6rem;
+    box-shadow: 0 .2rem .4rem #0003;
+    width: calc(20% - 1rem); /* Ancho más pequeño en pantallas grandes */
+    transition: .3s;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Alineación a la izquierda */
+}
+
+.card:hover {
+    transform: translateY(-.5rem);
+    box-shadow: 0 .4rem .8rem #0005;
+}
+
+.card h2, .card p {
+    text-align: left; /* Texto alineado a la izquierda */
+}
+
+.card__image {
+    width: 100%;
+    height: auto;
+    border-radius: .4rem;
+    margin-bottom: .5rem;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0.4rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 0.5rem;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.edit-btn {
+    background-color: #ffc107;
+}
+
+.edit-btn:hover {
+    background-color: #e0a800;
+}
+
+.delete-btn {
+    background-color: #ff4d4d;
+}
+
+.delete-btn:hover {
+    background-color: #ff1a1a;
+}
+
+.add-event {
+    margin-top: 2rem;
+    background-color: white;
+    padding: 1rem;
+    border-radius: .6rem;
+    box-shadow: 0 .2rem .4rem #0003;
+    width: 100%; /* Ocupar todo el ancho disponible dentro de main.cards */
+}
+
+.add-event h2 {
+    margin-bottom: 1rem;
+}
+
+.add-event form {
+    display: flex;
+    flex-direction: column;
+}
+
+.add-event input,
+.add-event textarea,
+.add-event button {
+    margin-bottom: 1rem;
+    padding: .5rem;
+    border-radius: .4rem;
+    border: 1px solid #ccc;
+}
+
+.add-event button {
+    background-color: #28a745;
+    color: white;
+}
+
+.add-event button:hover {
+    background-color: #218838;
+}
+
+/* Estilos para las etiquetas de "Fecha" */
+.add-event label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Estilos responsive para dispositivos móviles */
+@media (max-width: 768px) {
+    .add-event label {
+        font-size: 13px; /* Tamaño de fuente más pequeño en móviles */
+        color: #555;
+        margin-left: 10px;
+    }
+
+    .cards__header {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .cards__header h1 {
+        margin-bottom: 1rem;
+    }
+
+    .card {
+        width: calc(50% - 1rem);
+    }
+
+    #search {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .cards__header {
+        width: 100%;
+        justify-content: space-between; /* Asegura que los elementos estén distribuidos correctamente */
+        margin-bottom: 1rem;
+    }
+
+    .cards__header h1 {
+        font-size: 1rem;
+        margin: 0;
+        margin-right: -50px;
+    }
+
+    #search {
+        width: 100%;
+        max-width: 200px;
+        font-size: 0.8rem;
+        margin-right: -50px;
+    }
+
+    .card {
+        width: calc(85% - 1rem); /* Ajusta el ancho para dispositivos móviles */
+        max-width: none;
+        margin: 0.5rem 0; /* Ajusta el margen entre tarjetas */
+    }
+
+    .cards__body {
+        justify-content: right;
+    }
+
+    .add-event {
+        width: 90%; /* Ajusta el ancho para móviles */
+        max-width: 500px; /* Ajusta el ancho máximo para móviles */
+        align-self: flex-end;
+    }
+    .add-event h2 {
+        font-size: 1rem;
+        margin: 0;
+        text-align: right;
+        padding-right: 2rem;
+    }
+}
+
+/* Cambios para escritorio: hacer que .add-event ocupe todo el ancho */
+@media (min-width: 1200px) {
+    .add-event {
+        width: 100%; /* Ocupar todo el ancho disponible */
+        align-self: flex-start; /* Alineación completa en el contenedor */
+    }
+}
+
+

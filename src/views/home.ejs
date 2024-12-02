@@ -1,0 +1,322 @@
+
+<head>
+    <link rel="stylesheet" href="/css/home.css">
+    <script src="https://kit.fontawesome.com/ad84deac3c.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>Amasijo</title>
+</head>
+<body>  
+    <%- include('partials/navBar.ejs') %>
+
+    <section class="section-container">
+        <div class="estadisticas">
+            <div class="cuadros">
+                <h2><i class="fa-regular fa-user"></i> Reseñas</h2>
+           
+            </div>
+            
+            
+            <div class="cuadros">
+                <h2><i class="fa-regular fa-star"></i> Calificacion </h2>
+                <h3 id="promedioPuntuacion"> Cargando... </h3>
+            </div>
+            <div class="cuadros">
+                <h2><i class="fa-solid fa-users"></i> Personas hoy</h2>
+                <h3 id="reservasSemanales"> Cargando... </h3>
+            </div>
+        </div>
+        <div class="estadistica-graficos-lineal">
+            <div class="estadistica-lineal">
+                <h1 id="mostrarPorMes"> Reservas al mes</h1>
+                <canvas id="myChart" width="700" height="200" aria-label="Gráfico de líneas"></canvas>
+            </div>
+        </div>
+        <div class="estadistica-graficos-donut">
+            <div class="doughnut-chart-container">
+                <h4> Dia mas reservado</h4>
+                <canvas id="doughnutChart" width="900" height="400" aria-label="Gráfico de dona"></canvas>
+            </div>
+        </div>
+        
+        <div class="informacion">
+            <div class="info-cuadro">
+                <h2>Reservas próximas</h2>
+                  <hr>
+                <p id="reservas-lista">Cargando...</p>
+              
+
+            </div>
+            
+            <div class="info-cuadro">
+                <h2>Reservas sin confirmar</h2>
+                <hr>
+                <p id="reservas-pendientes"> Cargando... </p>
+            </div>  
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const ctx = document.getElementById('myChart').getContext('2d');
+
+        const dataPorMes = <%- JSON.stringify(dataPorMes) %>;
+
+        const options = {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        };
+
+        let chart = new Chart(ctx, {
+            type: 'line',
+            data: dataPorMes,
+            options: options
+        });
+
+   
+
+
+
+    </script>
+    <!-- En tu archivo EJS -->  
+
+    
+    <script>
+        /* Dona- dias mas visitado*/
+        document.addEventListener('DOMContentLoaded', async function() {
+            try {
+                const response = await fetch('http://localhost:3000/admin/masvisitados'); // Ruta a tu API
+                const data = await response.json();
+    
+                // Preparar datos para el gráfico de Doughnut
+                const labels = data.map(item => {
+                    switch (item.dayOfWeek) {
+                        case 1: return 'Sabado';
+                        case 2: return 'Lunes';
+                        case 3: return 'Martes';
+                        case 4: return 'Miércoles';
+                        case 5: return 'jueves';
+                        case 6: return 'Viernes';
+                        case 7: return 'Sabado';
+                        default: return '';
+                    }
+                });
+    
+                const backgroundColors = ['#ff6384', '#36a2eb', '#cc65fe', '#ffce56', '#4bc0c0', '#9966ff', '#ff4d4d'];
+                const dataValues = data.map(item => item.total);
+    
+                const datosDiasMasVisitados = {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Días más visitados',
+                        data: dataValues,
+                        backgroundColor: backgroundColors,
+                        hoverOffset: 4
+                    }]
+                };
+    
+                const opciones = {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(tooltipItem) {
+                                    return tooltipItem.label + ': ' + tooltipItem.raw.toLocaleString();
+                                }
+                            }
+                        }
+                    }
+                };
+    
+                // Crear Doughnut Chart
+                const doughnutCtx = document.getElementById('doughnutChart').getContext('2d');
+                const doughnutChart = new Chart(doughnutCtx, {
+                    type: 'doughnut',
+                    data: datosDiasMasVisitados,
+                    options: opciones
+                });
+    
+            } catch (error) {
+                console.error('Error al obtener los datos para el gráfico de Doughnut:', error);
+            }
+        });
+
+
+    </script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', async function() {
+        try {
+            // Hacer la solicitud a la API
+            const response = await fetch('http://localhost:3000/admin/home/resenasTotales'); // Ruta a tu API
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+            const data = await response.json();
+
+            const cuadrosDiv = document.querySelector('.cuadros');
+            const totalReseñasElement = document.createElement('h3');
+            totalReseñasElement.id = 'totalReseñas';
+            totalReseñasElement.textContent = data.totalResenas;
+            cuadrosDiv.appendChild(totalReseñasElement);
+        } catch (error) {
+            console.error('Error al obtener los datos de la API:', error);
+        }
+    });
+
+
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+<script>
+
+/* Promedio*/
+document.addEventListener('DOMContentLoaded', async function() {
+  try {
+      const response = await fetch('http://localhost:3000/admin/home/promedioCalificaciones');
+      if (!response.ok) {
+          throw new Error('Network response was not ok ' + response.statusText);
+      }
+      const data = await response.json();
+      
+      const promedioPuntuacionElement = document.getElementById('promedioPuntuacion');
+      if (data && data.promedioCalificaciones) {
+          const promedio = parseFloat(data.promedioCalificaciones);
+          if (!isNaN(promedio)) {
+              promedioPuntuacionElement.textContent = promedio.toFixed(2);
+          } else {
+              throw new Error('Invalid promedioCalificaciones value: ' + data.promedioCalificaciones);
+          }
+      } else {
+          throw new Error('Invalid API response: ' + JSON.stringify(data));
+      }
+  } catch (error) {
+      console.error('Error al obtener el promedio de puntuación:', error);
+      const promedioPuntuacionElement = document.getElementById('promedioPuntuacion');
+      promedioPuntuacionElement.textContent = 'Error al cargar el promedio de puntuación';
+  }
+});
+    
+</script>
+
+
+<script>
+/* Reservas Semanales */
+
+document.addEventListener('DOMContentLoaded', async function() {
+  try {
+      const response = await fetch('http://localhost:3000/admin/home/cantidadPersonasHoy');
+      if (!response.ok) {
+          throw new Error('Network response was not ok ' + response.statusText);
+      }
+      const data = await response.json();
+
+      const reservasSemanalesElement = document.getElementById('reservasSemanales');
+      reservasSemanalesElement.textContent = data.totalPersonas;
+  } catch (error) {
+      console.error('Error al obtener los datos de la API:', error);
+      const reservasSemanalesElement = document.getElementById('reservasSemanales');
+      reservasSemanalesElement.textContent = 'Error al cargar los datos de la API';
+  }
+});
+
+</script>
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', async function() {
+        try {
+            // Hacer la solicitud al endpoint para obtener las próximas reservas
+            const response = await fetch('http://localhost:3000/admin/home/proximasReservas');
+            
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+            
+            const reservasProximas = await response.json();
+            
+            // Obtener el elemento donde se mostrarán las reservas
+            const reservasLista = document.getElementById('reservas-lista');
+            
+            // Limpiar el contenido existente
+            reservasLista.innerHTML = '';
+
+            // Mostrar las reservas próximas
+            if (reservasProximas && reservasProximas.length > 0) {
+                reservasProximas.forEach(reserva => {
+                    const reservaElement = document.createElement('p');
+                    reservaElement.innerHTML = `<strong>Cliente:</strong> ${reserva.Cliente.nombre} <br>
+                                                <strong>Cantidad de Personas:</strong> ${reserva.cantidadPersonas} <br>
+                                                <strong>Fecha y Hora:</strong> ${new Date(reserva.fechaHoraReserva).toLocaleString()}
+                                                <br>
+                                                <strong>Asistió:</strong> 
+                                                <input type="checkbox" id="asistencia-${reserva.id}" onclick="marcarAsistencia(${reserva.id})">
+                                                <hr>`
+                                                ;
+                    reservasLista.appendChild(reservaElement);
+                });
+            } else {
+                reservasLista.innerHTML = 'No hay reservas próximas.';
+            }
+        } catch (error) {
+            console.error('Error al obtener las próximas reservas:', error);
+            document.getElementById('reservas-lista').innerHTML = 'Error al cargar las reservas.';
+        }
+    });
+
+
+
+    document.addEventListener('DOMContentLoaded', async function() {
+        try {
+            // Hacer la solicitud al endpoint para obtener las reservas pendientes
+            const response = await fetch('http://localhost:3000/admin/home/totalPendiente');
+            
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+            
+            const data = await response.json();
+            
+            // Obtener el elemento donde se mostrará la información de las reservas pendientes
+            const reservasPendientesElement = document.getElementById('reservas-pendientes');
+            
+            // Limpiar el contenido existente
+            reservasPendientesElement.innerHTML = '';
+
+            // Verificar si hay reservas pendientes
+            if (data.totalPendiente && data.totalPendiente.length > 0) {
+                data.totalPendiente.forEach(reserva => {
+                    // Crear un elemento para cada reserva
+                    const reservaElement = document.createElement('p');
+                    const fechaHora = new Date(reserva.fechaHoraReserva).toLocaleString(); // Formatear la fecha y hora
+                    
+                    reservaElement.innerHTML = `<strong>Cliente:</strong> ${reserva.Cliente.nombre} <br>
+                                                <strong>Cantidad de personas:</strong> ${reserva.cantidadPersonas} <br>
+                                                <strong>Fecha y Hora:</strong> ${fechaHora} 
+                                                <hr>`;
+                    
+                    // Agregar el elemento al contenedor
+                    reservasPendientesElement.appendChild(reservaElement);
+                });
+            } else {
+                reservasPendientesElement.innerHTML = 'No hay reservas pendientes.';
+            }
+        } catch (error) {
+            console.error('Error al obtener los datos de la API:', error);
+            const reservasPendientesElement = document.getElementById('reservas-pendientes');
+            reservasPendientesElement.innerHTML = 'Error al cargar los datos de reservas pendientes.';
+        }
+    });
+</script>
+
+
+</body>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <title>Amasijo - Inicio de Sesión</title>
+</head>
+<body>
+    <input type="button" id="login-trigger" class="hidden">
+
+    <div class="login-bg"></div>
+    <div class="form"> 
+        <form class="login-box" id="login-box" action="/autenticacion/login" method="POST">
+            <h1>Amasijo - login</h1>
+            <input id="email" type="email" name="email" placeholder="Correo electrónico"> 
+            <input id="pw-input" type="password" name="password" minlength="12" maxlength="20" placeholder="Contraseña" class="pw-input" required>
+            <img src="/img/eyeclo.png" id="eyeclo" class="pw-eyeclo">
+            <img src="/img/eyeop.png" id="eyeop" class="pw-eyeop">
+            <button class="loginbt" type="submit" id="loginbt" name="loginbt">Iniciar sesión</button>
+            <br>
+            <a href="" class="forgot-pw">¿Olvidaste tu contraseña?</a>
+        </form> 
+    </div>
+    <script src="login.js"></script>
+</body>
+</html>

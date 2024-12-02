@@ -1,0 +1,34 @@
+<%- include('partials/navBar.ejs') %>
+
+<head>
+    <link rel="stylesheet" href="/css/resenas.css">
+</head>
+<body>
+    <main class="cards" id="customers_cards">
+        <section class="cards__header">
+            <h1>Reseñas</h1>
+        </section>
+        <section class="cards__body">
+            <% reviews.forEach(review => { %>
+                <div class="card" data-id="<%= review.idresena %>">
+                    <h2><%= review.nombre %> <%= review.apellido %></h2>
+                    <p><strong>ID:</strong> <%= review.idresena %></p>
+                    <p><strong>Fecha:</strong> <%= new Date().toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' }) %></p> <!-- Asumiendo que no hay fecha en el modelo -->
+                    <p><strong>Estrellas:</strong> <span class="rating">
+                        <% for (let i = 0; i < review.puntuacion; i++) { %>
+                            <span class="star">&#9733;</span>
+                        <% } %>
+                    </span></p>
+                    <p><strong>Mostrar:</strong> <button class="status delivered <%= review.mostrar ? 'si' : 'no' %>" data-id="<%= review.idresena %>"><%= review.mostrar ? 'Sí' : 'No' %></button></p>
+                    <p><strong>Descripción:</strong> <%= review.comentario %></p>
+                    <form action="/admin/resenas/delete/<%= review.idresena %>" method="POST" class="delete-form">
+                        <button type="submit" class="delete-btn">Eliminar</button>
+                    </form>
+                </div>
+            <% }) %>
+        </section>
+    </main>
+    <script src="/js/resenas.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</body>

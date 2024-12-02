@@ -1,0 +1,221 @@
+body {
+    margin: 0px;
+    background-color: #ddd;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  #totalReseñas{
+
+  }
+  
+  .section-container {
+    display: grid;
+    grid-template-columns: 1fr 300px 1fr;
+    grid-template-rows: 150px 350px 1fr;
+    width: 95%;
+    gap: 10px 10px;
+    margin-left: 80px;
+    min-height: 100vh;
+    grid-template-areas:
+      "estadistica estadistica estadistica"
+      "estadistica-graficos-lineal estadistica-graficos-lineal estadistica-graficos-dount"
+      "informacion informacion informacion";
+  }
+  
+  .estadisticas {
+    grid-area: estadistica;
+    display: flex;
+    justify-content: center;
+  
+  }
+  
+
+  .cuadros {
+    background-color: rgb(111, 52, 248);
+    width: 210px;
+    height: 110px;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .cuadros h2 i {
+    margin-right: 10px;
+    border-radius: 100px;
+    background-color: rgb(89, 0, 255);
+    color: white;
+    padding: 10px;
+  }
+  
+  .cuadros h3 i {
+    margin-left: 10px;
+    font-size: 10px;
+    border-radius: 100px;
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    padding: 10px;
+  }
+  
+  .cuadros h2 {
+    padding-bottom: 10px;
+    color: white;
+    margin: 0;
+    font-weight: 200;
+    font-size: 14px; /* Reducido el tamaño de fuente */
+  }
+  
+  .cuadros h3 {
+    color: white;
+    font-size: 28px; /* Reducido el tamaño de fuente */
+    margin: 0;
+    font-weight: 400;
+  }
+  
+  .cuadros span {
+    font-size: 13px; /* Reducido el tamaño de fuente */
+    font-weight: 100;
+  }
+
+  
+  .estadistica-graficos-donut {
+    grid-area: estadistica-graficos-dount;
+    border-radius: 8px;
+    background: white;
+    padding: 20px;
+    width: 96%;
+  }
+  
+  .doughnut-chart-container {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    width: 100%;
+    height: 300px;
+    border-radius: 10px;
+  }
+  
+  .informacion {
+    margin: 0px 20px;
+    background-color: #f9f9f9;
+    grid-area: informacion;
+    padding: 20px;
+    border-radius: 8px;
+    width: 97%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    height: 500px;
+
+  }
+  
+  .informacion h2 {
+    margin: 0;
+    text-align: center  ;
+  }
+  
+
+  
+  .informacion p {
+    margin: 10px;
+    font-style: italic;
+    color: #000000;
+    font-size: 15px;
+  }
+  
+  .info-cuadro {
+    background-color: #fff;
+    border: 2px solid #3498db;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    flex: 1;
+    overflow: auto; /* Agrega barras de desplazamiento si el contenido es mayor al contenedor */
+  }
+  
+  
+  h2 {
+    margin: 0 0 10px;
+    font-weight: 600;
+    font-size: 16px; /* Reducido el tamaño de fuente */
+  }
+  
+  p {
+    margin: 5px 0;
+    font-weight: 300;
+    font-size: 14px; /* Reducido el tamaño de fuente */
+  }
+
+
+    
+  .estadistica-graficos-lineal {
+    grid-area: estadistica-graficos-lineal;
+    border-radius: 8px;
+    margin: 0px 20px;
+    padding: 20px;
+    background: white;
+  }
+  
+  .estadistica-lineal {
+    width: 100%;
+    height: 100%;
+    background-color: white;
+  }
+/* Media Queries para dispositivos móviles */
+@media (max-width: 768px) {
+  .section-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    grid-template-areas:
+      "estadistica"
+      "estadistica-graficos-lineal"
+      "estadistica-graficos-dount"
+      "informacion";
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .estadisticas {
+    width: 50%; /* Reduce el ancho del contenedor de estadísticas */
+    margin: 0 auto; /* Centra el contenedor */
+    margin-left: 128px;
+  }
+
+  .cuadros {
+    width: 50%; /* Reduce el ancho de los cuadros al 50% */
+    height: auto; /* Permite que la altura se ajuste al contenido */
+    margin: 5px 0; /* Reduce el margen para dispositivos móviles */
+    padding: 10px; /* Reduce el padding */
+    margin-left: 10px;
+  }
+
+  .doughnut-chart-container {
+    height: 150px; /* Reduce la altura del gráfico de dona */
+  }
+
+  .estadistica-graficos-lineal, .estadistica-graficos-donut {
+    margin: 0;
+    margin-left: 100px;
+    padding: 10px;
+    width: 65%; /* Reduce el ancho de los gráficos */
+    height: auto; /* Permite que la altura se ajuste al contenido */
+  }
+
+  .informacion {
+    flex-direction: column;
+    height: auto; /* Ajusta la altura para que se adapte al contenido */
+    padding: 10px; /* Reduce el padding */
+    width: 65%; /* Ajusta el ancho del contenedor de información */
+    margin-left: 100px;
+  }
+
+  .info-cuadro {
+    width: 100%; /* Reduce el ancho del cuadro de información */
+    padding: 5px; /* Reduce el padding */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ajusta la sombra si es necesario */
+  }
+}

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amasijo Restaurante</title>
+    <link rel="stylesheet" href="navBar.css"> 
+   
+    <script>
+        function showConfirm() {
+        Swal.fire({
+            title: "¿Estás seguro?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Sí, cerrar sesión"
+        }).then((result) => {
+            if (result.isConfirmed) {
+            // Enviar el formulario si el usuario confirma
+            document.querySelector('form').submit();
+            }
+        });
+        }
+
+        function confirmLogout() {
+        showConfirm(); // Llamamos a la función showConfirm() para mostrar la ventana de SweetAlert
+        return false; // Evitamos el envío del formulario por defecto
+        }
+    </script>
+</head>
+
+<body>
+<!-- <%- include('head.ejs') %> -->
+
+    <div class="nav">
+        <nav class="sidebar close">
+            <header>
+                <div class="image-text">
+                    <span class="image">
+                        <!-- Aquí puedes poner tu imagen de logo si es necesario -->
+                    </span>
+                    <div class="text logo-text">
+                        <span class="name">Amasijo</span>
+                        <span class="profession">Restaurante</span>
+                    </div>
+                </div>
+                <i class='bx bx-chevron-right toggle'></i>
+            </header>
+
+            <div class="menu-bar" id="mydiv">
+                <div class="menu">
+                    <ul class="menu-links">
+                        <li class="nav-link active" id="panel-link"> <!-- active -->
+                            <a href="/admin/home">
+                                <i class='bx bx-home-alt icon'></i>
+                                <span class="text nav-text">Panel</span>
+                            </a>
+                        </li>
+                        <li class="nav-link" id="reservas-link">
+                            <a href="/admin/reservas">
+                                <i class='bx bx-bar-chart-alt-2 icon'></i>
+                                <span class="text nav-text">Reservas</span>
+                            </a>
+                        </li>
+            
+                        <li class="nav-link" id="analisis-link">
+                            <a href="/admin/eventos">
+                                <i class='bx bx-pie-chart-alt icon'></i>
+                                <span class="text nav-text">Eventos</span>
+                            </a>
+                        </li>
+                        <li class="nav-link" id="resenas-link">
+                            <a href="/admin/resenas">
+                                <i class='bx bx-heart icon'></i>
+                                <span class="text nav-text">Reseñas</span>
+                            </a>
+                        </li>
+                        <li class="nav-link" id="resenas-link">
+                            <a href="/admin/administrar-fechas">
+                                <i class='bx bx-calendar icon'></i>
+                         <span class="text nav-text">horarios</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="bottom-content">
+                    <li class="nav-link" id="salir-link">
+                        <form action="/logout" method="POST" onsubmit="return confirmLogout()">
+                            <button type="submit" class="logout-button">
+                                <i class='bx bx-log-out icon'></i>
+                                <span class="text nav-text">Salir</span>
+                            </button>
+                            <input type="hidden" id="confirmation-message" value="¿Está seguro de que desea cerrar sesión?">
+                        </form>
+
+                    </li>
+                </div> 
+    
+                
+                
+            </div>
+        </nav>
+        
+        <script>
+            const body = document.querySelector('body'),
+                sidebar = body.querySelector('nav.sidebar'),
+                toggle = body.querySelector(".toggle"),
+                searchBtn = body.querySelector(".search-box"),
+                modeText = body.querySelector(".mode-text");
+    
+            toggle.addEventListener("click", () => {
+                sidebar.classList.toggle("close");
+            });
+    
+            
+            // Obtener la URL actual
+            const currentUrl = window.location.pathname;
+        
+            // Función para agregar clase 'active' al enlace correspondiente
+            function setActiveLink() {
+                const links = document.querySelectorAll('.menu-links .nav-link');
+                links.forEach(link => {
+                    const href = link.querySelector('a').getAttribute('href');
+                    if (currentUrl.includes(href)) {
+                        link.classList.add('active');
+                    } else {
+                        link.classList.remove('active');
+                    }
+                });
+            }
+        
+            // Llamar a la función al cargar la página
+            setActiveLink();
+        </script>
+        
+    </div>
+
+</body>
+</html>
